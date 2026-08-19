@@ -1,0 +1,81 @@
+---
+import Nav from '../data/nav.js'
+---
+<header class="site-header sticky top-0 z-40 bg-white shadow-sm">
+  <div class="relative mx-auto flex max-w-6xl items-center justify-between px-4 py-3">
+    
+    <div class="logo">
+      <a href="/" class="text-lg font-bold">My Website</a>
+    </div>
+
+    <button 
+      id="menu-btn" 
+      aria-expanded="false" 
+      aria-controls="nav-menu" 
+      aria-label="Open menu"
+      class="group md:hidden flex flex-col justify-center items-center w-10 h-10 gap-1.5 cursor-pointer">
+      <span class="w-6 h-0.5 bg-black transition-all duration-300 transform origin-center group-[.is-open]:rotate-45 group-[.is-open]:translate-y-2"></span>
+      <span class="w-6 h-0.5 bg-black transition-all duration-300 group-[.is-open]:opacity-0"></span>
+      <span class="w-6 h-0.5 bg-black transition-all duration-300 transform origin-center group-[.is-open]:-rotate-45 group-[.is-open]:-translate-y-2"></span>
+   
+    </button>
+
+    <nav id="nav-menu" aria-label="Primary" class="hidden md:block absolute md:static top-full left-0 w-full md:w-auto bg-white md:bg-transparent shadow-md md:shadow-none transition-all duration-200">
+      <ul class="flex flex-col md:flex-row md:gap-6 p-4 md:p-0">
+        {Nav.map((nav) => (
+          <li>
+            <a href={nav.href} class="block py-2 md:py-0 hover:underline">{nav.label}</a>
+          </li>
+        ))}
+      </ul>
+    </nav>
+
+  </div>
+</header>
+
+<script>
+  const toggle = document.getElementById('menu-btn');
+  const menu = document.getElementById('nav-menu');
+
+  if (toggle && menu) {
+    const closeMenu = () => {
+      toggle.setAttribute('aria-expanded', 'false');
+      toggle.setAttribute('aria-label', 'Open menu');
+      toggle.classList.remove('is-open');
+      menu.classList.add('hidden');
+      menu.classList.remove('block');
+    };
+
+    const openMenu = () => {
+      toggle.setAttribute('aria-expanded', 'true');
+      toggle.setAttribute('aria-label', 'Close menu');
+      toggle.classList.add('is-open');
+      menu.classList.remove('hidden');
+      menu.classList.add('block');
+    };
+
+    toggle.addEventListener('click', () => {
+      const isOpen = toggle.getAttribute('aria-expanded') === 'true';
+      isOpen ? closeMenu() : openMenu();
+    });
+
+    document.addEventListener('keydown', (e) => {
+      if (e.key === 'Escape' && toggle.getAttribute('aria-expanded') === 'true') {
+        closeMenu();
+        toggle.focus();
+      }
+    });
+
+    document.addEventListener('click', (e) => {
+    if (!(e.target instanceof Node)) return;
+
+    const isOpen = toggle.getAttribute('aria-expanded') === 'true';
+    const clickedInsideMenu = menu.contains(e.target);
+    const clickedToggle = toggle.contains(e.target);
+
+    if (isOpen && !clickedInsideMenu && !clickedToggle) {
+        closeMenu();
+    }
+    });
+  }
+</script>

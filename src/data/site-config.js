@@ -19,5 +19,6 @@ export default {
     google: "https://g.page/placeholder",
     facebook: "https://facebook.com/placeholder",
   },
-  license: "Placeholder — pending",
+  license: "#LLCPlaceholder",
+  ard: "ARD23333333",
 };

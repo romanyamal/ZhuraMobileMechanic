@@ -1,0 +1,37 @@
+---
+import { Image } from 'astro:assets';
+import heroBg from '../assets/hero-bg.jpg'
+---
+<section id="hero" class="relative flex flex-col items-center md:items-start justify-center px-4 py-20 md:py-29.5 md:px-26 lg:px-38 text-center md:text-left overflow-hidden sm:h-[calc(100dvh-68px)] max-h-225">
+  <Image 
+    src={heroBg} 
+    alt="" 
+    class="absolute bg-black inset-0 w-full h-full object-cover -z-10"
+    loading="eager"
+    fetchpriority="high"
+    quality={65}
+  />
+  <h1 class="text-5xl sm:text-6xl md:text-7xl font-bold md:font-extrabold max-w-3xl text-white">
+    Mobile Mechanic & Roadside Assistance, At Your Door
+  </h1>
+
+  <p class="mt-4 max-w-xl text-md sm:text-lg md:text-xl text-gray-200"> 
+    We bring the shop to you — brake repairs, battery replacements, 
+    and roadside emergencies, handled right in your driveway, office parking lot, 
+    or wherever you're stranded. Certified technicians, upfront pricing, and no 
+    tow truck required.
+  </p>
+
+  <div class="mt-8 flex flex-col w-[90%] md:flex-row gap-4">
+    <a href="#scheduler" class="bg-red-600 text-white py-3 sm:py-4 text-xl sm:text-2xl md:text-xl md:px-12 md:py-4 rounded-lg font-semibold hover:bg-red-700">
+      Schedule Now
+    </a>
+    <a href="tel:+19165551234" class="border text-white border-gray-400 py-3 sm:py-4 text-xl sm:text-2xl md:text-xl md:px-12 md:py-4 rounded-lg font-semibold hover:border-red-600 hover:text-red-600">
+      Call Now
+    </a>
+  </div>
+   <p class="mt-4 text-sm sm:text-md md:text-lg font-medium text-gray-400">
+    Serving Sacramento & Surrounding Areas
+  </p>
+
+</section>

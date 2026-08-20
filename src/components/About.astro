@@ -1,5 +1,84 @@
 ---
+import { Image } from 'astro:assets';
+import siteConfig from '../data/site-config.js';
+import aboutImage from '../assets/work-vehicle.jpg';
+
+const { about } = siteConfig;
 ---
-<section id="about" class="scroll-mt-17">
-<h2 class="">Meet the owner</h2>
+
+<section id="about" class="bg-gray-900 px-4 py-20 md:px-26 lg:px-38">
+  <div class="max-w-6xl mx-auto">
+    <div class="text-center mb-16">
+      <p class="text-red-500 font-semibold tracking-widest uppercase text-sm mb-2">Who We Are</p>
+      <h2 class="text-3xl md:text-4xl font-bold text-white max-w-2xl mx-auto">
+        {about.intro}
+      </h2>
+    </div>
+
+    <div class="grid md:grid-cols-2 gap-12 items-start">
+      <Image
+        src={aboutImage}
+        alt={about.alt}
+        width={800}
+        height={600}
+        class="w-full h-auto rounded-lg"
+        loading="lazy"
+      />
+
+      <div>
+        <div id="about-text" class="text-gray-300 leading-relaxed space-y-4 max-h-32 overflow-hidden md:max-h-none">
+          {about.paragraphs.map((paragraph) => (
+            <p>{paragraph}</p>
+          ))}
+        </div>
+
+        <button
+          id="about-toggle"
+          aria-expanded="false"
+          aria-controls="about-text"
+          class="md:hidden mt-3 text-red-600 font-semibold hover:underline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-white"
+        >
+          Show more
+        </button>
+
+        <h3 class="text-lg font-semibold text-white mt-8 mb-3">Certifications & Standards</h3>
+        <ul class="space-y-2">
+          {about.credentials.map((credential) => (
+            <li class="flex items-center gap-2 text-gray-300">
+              <svg class="w-5 h-5 text-red-600 shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor" aria-hidden="true">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" />
+              </svg>
+              {credential}
+            </li>
+          ))}
+        </ul>
+      </div>
+    </div>
+
+    <dl class="grid grid-cols-3 gap-4 mt-16 border-t border-gray-800 pt-10 text-center">
+      {about.stats.map((stat) => (
+        <div>
+          <dt class="text-2xl md:text-4xl font-bold text-white">{stat.value}</dt>
+          <dd class="text-sm text-gray-400 mt-1">{stat.label}</dd>
+        </div>
+      ))}
+    </dl>
+  </div>
 </section>
+
+<script>
+  const toggleBtn = document.getElementById('about-toggle');
+  const textBlock = document.getElementById('about-text');
+
+  if (toggleBtn && textBlock) {
+    toggleBtn.addEventListener('click', () => {
+      const isExpanded = toggleBtn.getAttribute('aria-expanded') === 'true';
+
+      textBlock.classList.toggle('max-h-32', isExpanded);
+      textBlock.classList.toggle('overflow-hidden', isExpanded);
+
+      toggleBtn.setAttribute('aria-expanded', String(!isExpanded));
+      toggleBtn.textContent = isExpanded ? 'Show more' : 'Show less';
+    });
+  }
+</script>

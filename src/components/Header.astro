@@ -67,13 +67,14 @@ import Nav from '../data/nav.js'
     });
 
     document.addEventListener('click', (e) => {
-    if (!(e.target instanceof Node)) return;
+    if (!(e.target instanceof Element)) return;
 
     const isOpen = toggle.getAttribute('aria-expanded') === 'true';
     const clickedInsideMenu = menu.contains(e.target);
     const clickedToggle = toggle.contains(e.target);
+    const clickedNavitem = e.target.closest('a');
 
-    if (isOpen && !clickedInsideMenu && !clickedToggle) {
+    if (isOpen && ((!clickedInsideMenu && !clickedToggle) || (clickedInsideMenu && clickedNavitem))) {
         closeMenu();
     }
     });

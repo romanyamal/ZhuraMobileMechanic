@@ -1,6 +1,87 @@
 ---
-import gallery from '../data/gallery'
+import { Image } from 'astro:assets';
+import galleryItems from '../data/gallery.js';
+
+const images = import.meta.glob<{ default: ImageMetadata }>(
+  '/src/assets/gallery/*.{jpg,jpeg,png,webp}',
+  { eager: true }
+);
 ---
-<section id="gallery" class="scroll-mt-17">
-<h2 class="">Our work:</h2>
+
+<section id="gallery" class="bg-gray-950 px-4 py-20 md:px-26 lg:px-38">
+  <div class="text-center mb-16">
+    <p class="text-red-500 font-semibold tracking-widest uppercase text-sm mb-2">Recent Jobs</p>
+    <h2 class="text-3xl md:text-4xl font-bold text-white">
+      Recent Work in the Sacramento Area
+    </h2>
+  </div>
+
+  <ul id="gallery-list" class="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
+    {galleryItems.map((item, index) => {
+      const imageModule = images[item.src];
+      if (!imageModule) return null;
+
+      return (
+        <li
+          class:list={[
+            "group overflow-hidden rounded-lg border border-gray-800 bg-gray-900 transition-colors hover:border-red-600",
+            { "hidden md:block": index >= 3 },
+          ]}
+          data-gallery-item
+        >
+          <figure>
+            <div class="relative aspect-4/3 overflow-hidden">
+              <Image
+                src={imageModule.default}
+                alt={item.alt}
+                width={600}
+                height={450}
+                class="w-full h-full object-cover"
+                loading={index === 0 ? 'eager' : 'lazy'}
+              />
+              <span class="absolute top-3 left-3 bg-red-600 text-white text-xs font-semibold uppercase tracking-wide px-2 py-1 rounded">
+                Job Complete
+              </span>
+            </div>
+            {item.caption && (
+              <figcaption class="p-4 text-gray-400 text-sm leading-relaxed">
+                {item.caption}
+              </figcaption>
+            )}
+          </figure>
+        </li>
+      );
+    })}
+  </ul>
+
+  {galleryItems.length > 3 && (
+    <div class="mt-8 text-center md:hidden">
+      <button
+        id="gallery-toggle"
+        aria-expanded="false"
+        aria-controls="gallery-list"
+        class="border border-gray-400 text-white py-2 px-6 rounded-lg font-semibold hover:border-red-600 hover:text-red-600 focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-white"
+      >
+        Show all photos
+      </button>
+    </div>
+  )}
 </section>
+
+<script>
+  const toggleBtn = document.getElementById('gallery-toggle');
+  const hiddenItems = document.querySelectorAll('[data-gallery-item].hidden');
+
+  if (toggleBtn) {
+    toggleBtn.addEventListener('click', () => {
+      const isExpanded = toggleBtn.getAttribute('aria-expanded') === 'true';
+
+      hiddenItems.forEach((item) => {
+        item.classList.toggle('hidden', isExpanded);
+      });
+
+      toggleBtn.setAttribute('aria-expanded', String(!isExpanded));
+      toggleBtn.textContent = isExpanded ? 'Show all photos' : 'Show fewer photos';
+    });
+  }
+</script>

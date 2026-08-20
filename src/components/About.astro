@@ -15,7 +15,7 @@ const { about } = siteConfig;
       </h2>
     </div>
 
-    <div class="grid md:grid-cols-2 gap-12 items-start">
+    <div class="grid xl:grid-cols-2 gap-12 items-start">
       <Image
         src={aboutImage}
         alt={about.alt}
@@ -36,28 +36,30 @@ const { about } = siteConfig;
           id="about-toggle"
           aria-expanded="false"
           aria-controls="about-text"
-          class="md:hidden mt-3 text-red-600 font-semibold hover:underline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-white"
+          class="md:hidden mt-3 text-red-500 font-semibold hover:underline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-white"
         >
           Show more
         </button>
 
-        <h3 class="text-lg font-semibold text-white mt-8 mb-3">Certifications & Standards</h3>
-        <ul class="space-y-2">
+        <h3 class="text-lg font-semibold sm:flex sm:justify-center xl:block text-white mt-8 mb-3">Certifications & Standards</h3>
+        <ul class="sm:flex sm:flex-row sm:gap-6 justify-center xs:gap-2 xs:flex-col xl:flex-col lg:gap-2">
           {about.credentials.map((credential) => (
-            <li class="flex items-center gap-2 text-gray-300">
-              <svg class="w-5 h-5 text-red-600 shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor" aria-hidden="true">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" />
-              </svg>
-              {credential}
+            <li class="text-gray-300">
+                <div class="flex flex-row items-center gap-2">
+                    <svg class="w-5 h-5 text-red-600 shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor" aria-hidden="true">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" />
+                    </svg>
+                    {credential}
+                </div>
             </li>
           ))}
         </ul>
       </div>
     </div>
 
-    <dl class="grid grid-cols-3 gap-4 mt-16 border-t border-gray-800 pt-10 text-center">
+    <dl class="grid xs:grid-rows-3 sm:grid-cols-3 gap-4 mt-16 border-t border-gray-800 pt-10 text-center">
       {about.stats.map((stat) => (
-        <div>
+        <div class="flex gap-4 items-center pl-4 sm:pl-0 sm:block sm:justify-start sm:gap-0">
           <dt class="text-2xl md:text-4xl font-bold text-white">{stat.value}</dt>
           <dd class="text-sm text-gray-400 mt-1">{stat.label}</dd>
         </div>

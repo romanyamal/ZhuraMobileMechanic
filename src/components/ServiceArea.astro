@@ -1,5 +1,7 @@
 ---
 import serviceAreas from '../data/service-areas.js';
+import serviceAreaImg from '../assets/service-area-map.png';
+import Image from 'astro/components/Image.astro';
 
 const primaryCities = serviceAreas.filter((area) => area.tier === 'primary');
 const secondaryCities = serviceAreas.filter((area) => area.tier === 'secondary');
@@ -14,8 +16,8 @@ const secondaryCities = serviceAreas.filter((area) => area.tier === 'secondary')
       </h2>
     </div>
 
-    <img
-      src="./src/assets/service-area-map.png"
+    <Image
+      src={serviceAreaImg}
       alt="Map of Zhura Mobile Mechanic's service radius across the greater Sacramento area"
       width="1000"
       height="500"

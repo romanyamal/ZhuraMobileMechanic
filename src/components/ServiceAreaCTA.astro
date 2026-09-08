@@ -1,0 +1,14 @@
+---
+import siteConfig from '../data/site-config.js';
+---
+<div class="bg-black text-center py-8 px-4">
+  <p class="text-gray-300">
+    Don't see your city listed?
+    <a href={`tel:${siteConfig.phone}`} class="text-red-500 font-semibold hover:underline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-white pl-1">
+      Call
+    </a> or
+    <a href={`sms:${siteConfig.phone}`} class="text-red-500 font-semibold hover:underline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-white pl-1">
+      Text
+    </a> us — we may still be able to help.
+  </p>
+</div>

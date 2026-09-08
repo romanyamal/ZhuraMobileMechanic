@@ -1,0 +1,18 @@
+export const makes = [
+  "Honda",
+  "Toyota",
+  "Ford",
+  "Chevrolet",
+  "Nissan",
+  "Jeep",
+  "Ram",
+  "GMC",
+  "Hyundai",
+  "Kia",
+  "Subaru",
+  "BMW",
+  "Mercedes-Benz",
+  "Volkswagen",
+  "Mazda",
+  "Other",
+];

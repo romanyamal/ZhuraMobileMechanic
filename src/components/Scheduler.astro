@@ -1,5 +1,144 @@
 ---
+import services from '../data/services.js';
+import { makes } from '../data/car-details.js';
+
+const categories = [...new Set(services.map((service) => service.category))];
+
+const currentYear = new Date().getFullYear();
+const years = Array.from({ length: 30 }, (_, i) => currentYear - i);
 ---
-<section id="scheduler" class="scroll-mt-17">
-<h2 class="">Book an appt today</h2>
+
+<section id="scheduler" class="bg-gray-950 px-4 py-20 md:px-26 lg:px-38">
+  <div class="max-w-2xl mx-auto">
+    <div class="text-center mb-12">
+      <p class="text-red-500 font-semibold tracking-widest uppercase text-sm mb-2">Book a Job</p>
+      <h2 class="text-3xl md:text-4xl font-bold text-white">
+        Schedule Your Service
+      </h2>
+    </div>
+
+    <div id="scheduler-picker">
+      <form id="scheduler-form" class="space-y-6">
+        <div class="grid grid-cols-3 gap-4">
+            <div>
+                <label for="vehicle-year" class="block text-sm font-medium text-gray-300 mb-1">Year</label>
+                <div class="relative">
+                <select id="vehicle-year" name="year" required
+                    class="w-full appearance-none bg-gray-900 border border-gray-700 rounded-lg px-3 py-2 pr-9 text-white focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-white">
+                    <option value="" disabled selected>Select</option>
+                    {years.map((year) => <option value={year}>{year}</option>)}
+                </select>
+                <svg class="pointer-events-none absolute right-3 top-1/2 -translate-y-1/2 w-4 h-4 text-gray-400" fill="none" viewBox="0 0 24 24" stroke="currentColor" aria-hidden="true">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" />
+                </svg>
+                </div>
+            </div>
+
+            <div>
+                <label for="vehicle-make" class="block text-sm font-medium text-gray-300 mb-1">Make</label>
+                <div class="relative">
+                <select id="vehicle-make" name="make" required
+                    class="w-full appearance-none bg-gray-900 border border-gray-700 rounded-lg px-3 py-2 pr-9 text-white focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-white">
+                    <option value="" disabled selected>Select</option>
+                    {makes.map((make) => <option value={make}>{make}</option>)}
+                </select>
+                <svg class="pointer-events-none absolute right-3 top-1/2 -translate-y-1/2 w-4 h-4 text-gray-400" fill="none" viewBox="0 0 24 24" stroke="currentColor" aria-hidden="true">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" />
+                </svg>
+                </div>
+            </div>
+
+            <div>
+                <label for="vehicle-model" class="block text-sm font-medium text-gray-300 mb-1">Model</label>
+                <input type="text" id="vehicle-model" name="model" required
+                class="w-full bg-gray-900 border border-gray-700 rounded-lg px-3 py-2 text-white focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-white" />
+            </div>
+            </div>
+        <fieldset>
+          <legend class="text-sm font-medium text-gray-300 mb-3">What do you need done?</legend>
+          <div class="space-y-5">
+            {categories.map((category) => (
+              <div>
+                <p class="text-xs uppercase tracking-wide text-gray-400 mb-2">{category}</p>
+                <div class="grid sm:grid-cols-2 gap-2">
+                  {services.filter((s) => s.category === category).map((service) => (
+                    <label class="flex items-start gap-2 border border-gray-800 rounded-lg px-3 py-2 cursor-pointer has-checked:border-red-600 has-checked:bg-gray-900">
+                      <input
+                        type="radio"
+                        name="jobType"
+                        value={service.id}
+                        data-duration={service.durationMinutes}
+                        required
+                        class="mt-1 accent-red-600"
+                      />
+                      <span class="text-sm text-gray-200">{service.name}</span>
+                    </label>
+                  ))}
+                </div>
+              </div>
+            ))}
+          </div>
+        </fieldset>
+
+        <button type="submit"
+          class="w-full bg-red-600 text-white py-3 rounded-lg font-semibold hover:bg-red-800 focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-white">
+          Proceed to Scheduling
+        </button>
+      </form>
+    </div>
+
+    <div id="scheduler-embed" class="hidden">
+      <div class="border border-gray-800 rounded-lg p-8 text-center text-gray-400">
+        <p>Cal.com scheduling embed will mount here once configured.</p>
+        <button id="scheduler-restart" type="button"
+          class="mt-4 text-red-500 font-semibold hover:underline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-white">
+          ← Back to job details
+        </button>
+      </div>
+    </div>
+
+    <div id="scheduler-status" aria-live="polite" class="sr-only"></div>
+  </div>
 </section>
+
+<script>
+  const form = document.getElementById('scheduler-form');
+  const pickerContainer = document.getElementById('scheduler-picker');
+  const embedContainer = document.getElementById('scheduler-embed');
+  const restartBtn = document.getElementById('scheduler-restart');
+  const statusRegion = document.getElementById('scheduler-status');
+
+  if (form && pickerContainer && embedContainer) {
+    form.addEventListener('submit', (e) => {
+      e.preventDefault();
+
+      const selectedJob = form.querySelector('input[name="jobType"]:checked');
+      if (!(selectedJob instanceof HTMLInputElement)) return;
+
+      const duration = selectedJob.dataset.duration;
+
+      // TODO once Cal.com event type + identifiers exist:
+      // lazy-load Cal.com embed script here, mount into #scheduler-embed
+      // with duration and prefill values from the form fields above.
+      console.log('Selected duration (minutes):', duration);
+
+      pickerContainer.classList.add('hidden');
+      embedContainer.classList.remove('hidden');
+
+      if (statusRegion) {
+        statusRegion.textContent = 'Scheduling form loaded.';
+      }
+    });
+  }
+
+  if (restartBtn && pickerContainer && embedContainer) {
+    restartBtn.addEventListener('click', () => {
+      embedContainer.classList.add('hidden');
+      pickerContainer.classList.remove('hidden');
+
+      if (statusRegion) {
+        statusRegion.textContent = 'Returned to job details.';
+      }
+    });
+  }
+</script>

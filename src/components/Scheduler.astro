@@ -1,11 +1,8 @@
 ---
 import services from '../data/services.js';
-import { makes } from '../data/car-details.js';
+import { makes, years } from '../data/car-details.js';
 
 const categories = [...new Set(services.map((service) => service.category))];
-
-const currentYear = new Date().getFullYear();
-const years = Array.from({ length: 30 }, (_, i) => currentYear - i);
 ---
 
 <section id="scheduler" class="bg-gray-950 px-4 py-20 md:px-26 lg:px-38">

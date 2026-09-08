@@ -1,5 +1,389 @@
 ---
+// src/components/ContactForm.astro
+// Section 9 — Contact Form (Web3Forms). See Section 5.10 of the build spec.
+//
+// STATUS: scaffolded, not live. Submissions are intercepted client-side and
+// show a placeholder modal instead of posting to Web3Forms. See the
+// WEB3FORMS_ENABLED flag and "TO GO LIVE" comment in the <script> below for
+// the exact steps to flip this on once you have a real access key.
+
+import { years, makes } from "../data/car-details.js";
+import siteConfig from "../data/site-config.js";
+
+const fieldClasses =
+  "w-full bg-gray-900 border border-gray-700 rounded-lg px-3 py-2 text-white placeholder:text-gray-400 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-white";
+const selectClasses = `${fieldClasses} appearance-none pr-9`;
+const labelClasses = "block text-sm font-medium text-gray-300 mb-1";
+const inlineLinkClasses =
+  "text-red-500 underline underline-offset-2 decoration-red-500/60 hover:text-red-400 hover:decoration-red-400 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-white rounded-sm";
 ---
-<section id="contact" class="scroll-mt-17">
-<h2 class="">Get in touch with us</h2>
+
+<section id="contact" class="bg-gray-900 px-4 py-20 md:px-26 lg:px-38">
+  <div class="max-w-2xl mx-auto">
+    <div class="text-center mb-12">
+      <p class="text-red-500 font-semibold tracking-widest uppercase text-sm mb-2">
+        Get In Touch
+      </p>
+      <h2 id="contact-heading" tabindex="-1" class="text-3xl md:text-4xl font-bold text-white">
+        Tell Us What's Going On
+      </h2>
+      <p class="mt-3 text-gray-400">
+        Send us your vehicle and issue details and we'll follow up to confirm
+        availability
+      </p>
+      <p class="mt-3 text-gray-400"><a href={`tel:${siteConfig.phone}`} class={inlineLinkClasses}>Call</a> or <a href={`sms:${siteConfig.phone}`} class={inlineLinkClasses}>text</a> us at {siteConfig.phoneDisplay} for a faster response.</p>
+    </div>
+
+    <!-- Field-level validation feedback (native reportValidity() covers most of
+         this already, but this region gives a consistent announced fallback). -->
+    <p id="form-status" role="status" aria-live="polite" class="sr-only"></p>
+
+    <form
+      id="contact-form"
+      action="https://api.web3forms.com/submit"
+      method="POST"
+      class="space-y-6"
+      novalidate
+    >
+      <!-- Swap this placeholder for your real Web3Forms access key when going live. -->
+      <input type="hidden" name="access_key" value="YOUR_WEB3FORMS_ACCESS_KEY" />
+      <input
+        type="hidden"
+        name="subject"
+        value={`New contact form submission — ${siteConfig.shortName}`}
+      />
+      <input type="hidden" name="from_name" value={siteConfig.businessName} />
+
+      <!-- Honeypot per Web3Forms' spec: left blank by humans, filled by bots.
+           Hidden with display:none per their documented markup — this field is
+           intentionally not meant to be perceived or reached by anyone, so it's
+           also pulled out of tab order and hidden from assistive tech. -->
+      <input
+        type="checkbox"
+        name="botcheck"
+        style="display: none;"
+        tabindex="-1"
+        autocomplete="off"
+        aria-hidden="true"
+      />
+
+      <div class="grid gap-4 sm:grid-cols-2">
+        <div>
+          <label for="first-name" class={labelClasses}>First name</label>
+          <input
+            type="text"
+            id="first-name"
+            name="first_name"
+            required
+            autocomplete="given-name"
+            class={fieldClasses}
+          />
+        </div>
+        <div>
+          <label for="last-name" class={labelClasses}>Last name</label>
+          <input
+            type="text"
+            id="last-name"
+            name="last_name"
+            required
+            autocomplete="family-name"
+            class={fieldClasses}
+          />
+        </div>
+      </div>
+
+      <div class="grid grid-cols-1 sm:grid-cols-3 gap-4">
+        <div>
+          <label for="vehicle-year" class={labelClasses}>Year</label>
+          <div class="relative">
+            <select id="vehicle-year" name="vehicle_year" required class={selectClasses}>
+              <option value="" disabled selected>Select</option>
+              {years.map((year) => <option value={year}>{year}</option>)}
+            </select>
+            <svg class="pointer-events-none absolute right-3 top-1/2 -translate-y-1/2 w-4 h-4 text-gray-400" fill="none" viewBox="0 0 24 24" stroke="currentColor" aria-hidden="true">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" />
+            </svg>
+          </div>
+        </div>
+        <div>
+          <label for="vehicle-make" class={labelClasses}>Make</label>
+          <div class="relative">
+            <select id="vehicle-make" name="vehicle_make" required class={selectClasses}>
+              <option value="" disabled selected>Select</option>
+              {makes.map((make) => <option value={make}>{make}</option>)}
+            </select>
+            <svg class="pointer-events-none absolute right-3 top-1/2 -translate-y-1/2 w-4 h-4 text-gray-400" fill="none" viewBox="0 0 24 24" stroke="currentColor" aria-hidden="true">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" />
+            </svg>
+          </div>
+        </div>
+        <div>
+          <label for="vehicle-model" class={labelClasses}>Model</label>
+          <input
+            type="text"
+            id="vehicle-model"
+            name="vehicle_model"
+            required
+            autocomplete="off"
+            placeholder="e.g. Civic"
+            class={fieldClasses}
+          />
+        </div>
+      </div>
+
+      <div>
+        <label for="location" class={labelClasses}>Your location</label>
+        <input
+          type="text"
+          id="location"
+          name="location"
+          required
+          autocomplete="street-address"
+          placeholder="Address, cross streets, or landmark"
+          class={fieldClasses}
+        />
+      </div>
+
+      <div>
+        <label for="description" class={labelClasses}>What's going on with your vehicle?</label>
+        <textarea id="description" name="description" rows="4" required class={fieldClasses}></textarea>
+      </div>
+
+      <!-- Web3Forms' built-in captcha checkbox mounts itself into a container
+           you mark with data-captcha="true" on the <form> tag, once you've
+           enabled it in your Web3Forms dashboard and added their script:
+           <script src="https://web3forms.com/client/script.js" async defer></script>
+           No separate hCaptcha account/API key needed. Left out entirely for
+           now since the form isn't connected yet. -->
+
+      <div class="flex items-start gap-3">
+        <input
+          type="checkbox"
+          id="consent"
+          name="consent"
+          required
+          class="mt-1 accent-red-600"
+        />
+        <label for="consent" class="text-sm text-gray-400">
+          I agree to be contacted by phone or email regarding this submission.
+        </label>
+      </div>
+
+      <div class="flex gap-3">
+        <button
+          type="reset"
+          class="flex-1 border border-gray-700 text-gray-300 py-3 rounded-lg font-semibold hover:bg-gray-800 focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-white"
+        >
+          Clear Form
+        </button>
+        <button
+          type="submit"
+          class="flex-2 bg-red-600 text-white py-3 rounded-lg font-semibold hover:bg-red-800 focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-white disabled:cursor-not-allowed disabled:opacity-70"
+        >
+          Send Message
+        </button>
+      </div>
+    </form>
+  </div>
+
+  <!-- Status modal: shown on submit. Right now it always shows the "not
+       connected yet" message. Once Web3Forms is wired up, the same modal
+       is reused to show real success/error details — see the script below. -->
+  <div
+    id="contact-modal"
+    class="fixed inset-0 z-50 hidden items-center justify-center p-4"
+    aria-hidden="true"
+  >
+    <div id="contact-modal-backdrop" class="absolute inset-0 bg-black/70"></div>
+    <div
+      role="alertdialog"
+      aria-modal="true"
+      aria-labelledby="contact-modal-title"
+      aria-describedby="contact-modal-message"
+      data-state="info"
+      class="relative w-full max-w-sm rounded-xl bg-gray-950 border border-gray-800 p-6 shadow-xl"
+    >
+      <div id="contact-modal-icon" class="mb-4 flex h-10 w-10 items-center justify-center rounded-full"></div>
+      <h3 id="contact-modal-title" class="text-lg font-semibold text-white"></h3>
+      <p id="contact-modal-message" class="mt-2 text-sm text-gray-400"></p>
+      <button
+        type="button"
+        id="contact-modal-close"
+        class="mt-6 w-full bg-red-600 text-white py-2.5 rounded-lg font-semibold hover:bg-red-800 focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-white"
+      >
+        Got it
+      </button>
+    </div>
+  </div>
 </section>
+
+<script define:vars={{ phoneDisplay: siteConfig.phoneDisplay, phoneHref: siteConfig.phone }}>
+  // ---------------------------------------------------------------------
+  // TO GO LIVE:
+  // 1. Set the real access_key value on the hidden input above.
+  // 2. Flip WEB3FORMS_ENABLED to true below.
+  // 3. (Optional) Enable Web3Forms' captcha per the comment above the
+  //    consent checkbox in the markup.
+  // That's it — the fetch-based submit path below is already written and
+  // will take over automatically.
+  // ---------------------------------------------------------------------
+  const WEB3FORMS_ENABLED = false;
+
+  const ICONS = {
+    info: {
+      wrapper: "bg-gray-800 text-gray-300",
+      svg: '<svg viewBox="0 0 20 20" fill="currentColor" class="h-5 w-5"><path fill-rule="evenodd" d="M18 10A8 8 0 11 2 10a8 8 0 0116 0zM9 9a1 1 0 012 0v4a1 1 0 11-2 0V9zm1-4a1 1 0 100 2 1 1 0 000-2z" clip-rule="evenodd" /></svg>',
+    },
+    success: {
+      wrapper: "bg-green-900/50 text-green-400",
+      svg: '<svg viewBox="0 0 20 20" fill="currentColor" class="h-5 w-5"><path fill-rule="evenodd" d="M16.7 5.3a1 1 0 010 1.4l-7.4 7.4a1 1 0 01-1.4 0L3.3 9.5a1 1 0 111.4-1.4l3.9 3.9 6.7-6.7a1 1 0 011.4 0z" clip-rule="evenodd" /></svg>',
+    },
+    error: {
+      wrapper: "bg-red-900/50 text-red-400",
+      svg: '<svg viewBox="0 0 20 20" fill="currentColor" class="h-5 w-5"><path fill-rule="evenodd" d="M18 10A8 8 0 11 2 10a8 8 0 0116 0zM9 5a1 1 0 112 0v5a1 1 0 11-2 0V5zm1 8a1 1 0 100 2 1 1 0 000-2z" clip-rule="evenodd" /></svg>',
+    },
+  };
+
+  const form = document.getElementById("contact-form");
+  const statusEl = document.getElementById("form-status");
+  const submitButton = form.querySelector('button[type="submit"]');
+
+  const modal = document.getElementById("contact-modal");
+  const modalBackdrop = document.getElementById("contact-modal-backdrop");
+  const modalPanel = modal.querySelector('[role="alertdialog"]');
+  const modalIcon = document.getElementById("contact-modal-icon");
+  const modalTitle = document.getElementById("contact-modal-title");
+  const modalMessage = document.getElementById("contact-modal-message");
+  const modalClose = document.getElementById("contact-modal-close");
+
+  let lastFocusedElement = null;
+
+  // Builds the "call or text" phrase as real tel:/sms: links for use inside
+  // modal messages. Safe to inject as HTML: phoneHref/phoneDisplay come from
+  // site-config.js, never from user input.
+  const modalLinkClasses =
+    "text-red-400 underline underline-offset-2 hover:text-red-300 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-white rounded-sm";
+  function callTextPhrase() {
+    return (
+      `<a href="tel:${phoneHref}" class="${modalLinkClasses}">call</a> or ` +
+      `<a href="sms:${phoneHref}" class="${modalLinkClasses}">text</a> us at ${phoneDisplay}`
+    );
+  }
+
+  function openModal({ state, title, message }) {
+    modalPanel.dataset.state = state;
+    const icon = ICONS[state] ?? ICONS.info;
+    modalIcon.className = `mb-4 flex h-10 w-10 items-center justify-center rounded-full ${icon.wrapper}`;
+    modalIcon.innerHTML = icon.svg;
+    modalTitle.textContent = title;
+    modalMessage.innerHTML = message;
+
+    lastFocusedElement = document.activeElement;
+    modal.classList.remove("hidden");
+    modal.classList.add("flex");
+    modal.setAttribute("aria-hidden", "false");
+    document.body.classList.add("overflow-hidden");
+
+    modalClose.focus();
+    document.addEventListener("keydown", handleModalKeydown);
+  }
+
+  function closeModal() {
+    modal.classList.add("hidden");
+    modal.classList.remove("flex");
+    modal.setAttribute("aria-hidden", "true");
+    document.body.classList.remove("overflow-hidden");
+    document.removeEventListener("keydown", handleModalKeydown);
+    if (lastFocusedElement instanceof HTMLElement) lastFocusedElement.focus();
+  }
+
+  function handleModalKeydown(event) {
+    if (event.key === "Escape") {
+      closeModal();
+      return;
+    }
+    if (event.key !== "Tab") return;
+
+    const focusable = modalPanel.querySelectorAll(
+      'button, [href], input, select, textarea, [tabindex]:not([tabindex="-1"])'
+    );
+    if (!focusable.length) return;
+    const first = focusable[0];
+    const last = focusable[focusable.length - 1];
+
+    if (event.shiftKey && document.activeElement === first) {
+      event.preventDefault();
+      last.focus();
+    } else if (!event.shiftKey && document.activeElement === last) {
+      event.preventDefault();
+      first.focus();
+    }
+  }
+
+  modalClose.addEventListener("click", closeModal);
+  modalBackdrop.addEventListener("click", closeModal);
+
+  form.addEventListener("reset", () => {
+    statusEl.textContent = "Form cleared.";
+  });
+
+  form.addEventListener("submit", async (event) => {
+    event.preventDefault();
+
+    if (!form.reportValidity()) {
+      statusEl.textContent = "Please fill out all required fields before sending.";
+      return;
+    }
+
+    if (!WEB3FORMS_ENABLED) {
+      statusEl.textContent = "Message not sent — form submission is not yet connected.";
+      openModal({
+        state: "info",
+        title: "This form isn't live yet",
+        message:
+          "We're still wiring this up to Web3Forms. Once it's connected, sending this form will reach us directly — for now, please " +
+          callTextPhrase() +
+          " instead.",
+      });
+      return;
+    }
+
+    // --- Real submission path, active once WEB3FORMS_ENABLED = true ---
+    submitButton.disabled = true;
+    submitButton.textContent = "Sending…";
+
+    try {
+      const response = await fetch(form.action, {
+        method: "POST",
+        headers: { Accept: "application/json" },
+        body: new FormData(form),
+      });
+      const result = await response.json();
+
+      if (response.ok && result.success) {
+        statusEl.textContent = "Message sent successfully.";
+        openModal({
+          state: "success",
+          title: "Message sent",
+          message: "Thanks — we've received your message and will get back to you shortly.",
+        });
+        form.reset();
+      } else {
+        throw new Error(result.message || "Submission failed");
+      }
+    } catch (error) {
+      statusEl.textContent = "Something went wrong sending your message.";
+      openModal({
+        state: "error",
+        title: "Message didn't send",
+        message:
+          "Something went wrong on our end. Please " +
+          callTextPhrase() +
+          " instead, or try again in a moment.",
+      });
+    } finally {
+      submitButton.disabled = false;
+      submitButton.textContent = "Send Message";
+    }
+  });
+</script>

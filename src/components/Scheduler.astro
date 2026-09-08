@@ -88,7 +88,7 @@ const years = Array.from({ length: 30 }, (_, i) => currentYear - i);
     </div>
 
     <div id="scheduler-embed" class="hidden">
-      <div class="border border-gray-800 rounded-lg p-8 text-center text-gray-400">
+      <div id="scheduler-embed-box" class="border border-dashed border-gray-800 rounded-lg p-8 flex flex-col items-center justify-center text-center text-gray-400">
         <p>Cal.com scheduling embed will mount here once configured.</p>
         <button id="scheduler-restart" type="button"
           class="mt-4 text-red-500 font-semibold hover:underline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-white">
@@ -105,6 +105,7 @@ const years = Array.from({ length: 30 }, (_, i) => currentYear - i);
   const form = document.getElementById('scheduler-form');
   const pickerContainer = document.getElementById('scheduler-picker');
   const embedContainer = document.getElementById('scheduler-embed');
+  const embedBox = document.getElementById('scheduler-embed-box');
   const restartBtn = document.getElementById('scheduler-restart');
   const statusRegion = document.getElementById('scheduler-status');
 
@@ -121,6 +122,13 @@ const years = Array.from({ length: 30 }, (_, i) => currentYear - i);
       // lazy-load Cal.com embed script here, mount into #scheduler-embed
       // with duration and prefill values from the form fields above.
       console.log('Selected duration (minutes):', duration);
+
+      // Match the placeholder's height to the form's rendered height so the
+      // swap doesn't jump/collapse. Once the real Cal.com embed is wired in,
+      // this can be removed (Cal.com sizes its own iframe).
+      if (embedBox) {
+        embedBox.style.minHeight = `${pickerContainer.offsetHeight}px`;
+      }
 
       pickerContainer.classList.add('hidden');
       embedContainer.classList.remove('hidden');

@@ -4,7 +4,7 @@ export default {
   tagline: "Certified mobile repair, wherever you're stranded.",
   phone: "+19165551234",
   phoneDisplay: "(916) 555-1234",
-  email: "hello@zhuramobilemechanic.com",
+  email: "example@gmail.com",
   // PLACEHOLDER — real domain not finalized. Update here once confirmed;
   // this single value drives canonical URLs (Layout.astro), robots.txt's
   // sitemap reference, and the JSON-LD business schema (Footer.astro).

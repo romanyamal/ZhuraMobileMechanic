@@ -1,0 +1,7 @@
+# PLACEHOLDER DOMAIN — update the Sitemap line below once the real domain
+# is confirmed (must match `domain` in src/data/site-config.js).
+
+User-agent: *
+Allow: /
+
+Sitemap: https://zhuramobilemechanic.com/sitemap-index.xml

@@ -1,0 +1,46 @@
+---
+import Layout from "../layouts/Layout.astro";
+import siteConfig from "../data/site-config.js";
+
+const ctaClasses =
+  "inline-flex items-center justify-center rounded-lg px-6 py-3 font-semibold focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-white";
+---
+
+<Layout
+  title={`Page Not Found | ${siteConfig.businessName}`}
+  description="The page you're looking for doesn't exist."
+  noindex={true}
+>
+  <div class="min-h-[60dvh] flex items-center justify-center bg-gray-950 px-4 py-20 md:px-26 lg:px-38">
+    <div class="max-w-lg text-center">
+      <p class="text-red-500 font-semibold tracking-widest uppercase text-sm mb-2">404</p>
+      <h1 class="text-3xl md:text-4xl font-bold text-white">
+        We couldn't find that page
+      </h1>
+      <p class="mt-4 text-gray-400">
+        The page you were looking for may have moved or no longer exists.
+        Here's what you can do instead:
+      </p>
+
+      <div class="mt-8 flex flex-col sm:flex-row gap-3 justify-center">
+        <a href="/" class={`${ctaClasses} bg-red-600 text-white hover:bg-red-800`}>
+          Back to Home
+        </a>
+        <a
+          href={`tel:${siteConfig.phone}`}
+          class={`${ctaClasses} border border-gray-700 text-gray-200 hover:bg-gray-900`}
+        >
+          Call {siteConfig.phoneDisplay}
+        </a>
+      </div>
+
+      <p class="mt-6 text-sm text-gray-500">
+        Or{" "}
+        <a href="/#contact" class="text-red-500 underline underline-offset-2 decoration-red-500/60 hover:text-red-400 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-white rounded-sm">
+          send us a message
+        </a>{" "}
+        and we'll get back to you.
+      </p>
+    </div>
+  </div>
+</Layout>

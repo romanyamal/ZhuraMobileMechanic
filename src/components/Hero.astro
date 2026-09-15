@@ -1,20 +1,43 @@
 ---
-import { Image } from 'astro:assets';
-import heroBg from '../assets/hero-bg.jpg'
-import siteConfig from '../data/site-config'
+import { Image, getImage } from 'astro:assets';
+import heroBg from '../assets/hero-bg.jpg';
+import siteConfig from '../data/site-config';
+
+// 1. Pre-generate an optimized desktop image configuration asset
+const desktopImg = await getImage({ 
+  src: heroBg, 
+  width: 1200, // Reduced from 1920 to keep it lightning-fast for standard monitors
+  quality: 75, 
+  format: 'webp' 
+});
+
+// 2. Pre-generate a dedicated, ultra-lightweight mobile variant config
+const mobileImg = await getImage({ 
+  src: heroBg, 
+  width: 640,  // Perfectly optimized for mobile phone densities
+  quality: 65, 
+  format: 'webp' 
+});
 ---
-<section id="home" class="scroll-mt-17 relative flex flex-col items-center md:items-start justify-center px-4 sm:py-20 md:py-29.5 md:px-26 lg:px-38 text-center md:text-left overflow-hidden h-[calc(100dvh-68px)] max-h-225">
-  <Image 
-    src={heroBg} 
-    alt="" 
-    width={1920}
-    height={1280}
-    class="absolute bg-black inset-0 w-full h-full object-cover -z-20"
-    loading="eager"
-    fetchpriority="high"
-    quality={65}
-  />
-  <div class="absolute inset-0 bg-black/40 -z-10"></div>
+<section id="home" class="scroll-mt-17 relative flex flex-col items-center md:items-start justify-center px-4 sm:py-20 md:py-29.5 md:px-26 lg:px-38 xl:px-50 text-center md:text-left overflow-hidden h-[calc(100dvh-68px)] max-h-225">
+  
+  <!-- 3. Responsive Picture Wrapper to completely eliminate mobile asset loading bloat -->
+  <picture class="absolute inset-0 w-full h-full -z-20 object-cover bg-black pointer-events-none">
+    <source media="(max-width: 768px)" srcset={mobileImg.src} />
+    <source media="(min-width: 769px)" srcset={desktopImg.src} />
+    <img 
+      src={desktopImg.src} 
+      alt="" 
+      class="w-full h-full object-cover"
+      loading="eager"
+      fetchpriority="high"
+      decoding="async" 
+    />
+  </picture>
+
+  <!-- 4. Explicit Pre-paint Backdrop placeholder to shield the thread while image decodes -->
+  <div class="absolute inset-0 bg-black/40 -z-10 backdrop-brightness-50"></div>
+
   <h1 class="text-5xl sm:text-6xl md:text-7xl font-bold md:font-extrabold max-w-3xl text-white">
     Mobile Mechanic & Roadside Assistance, At Your Door
   </h1>
@@ -34,7 +57,8 @@ import siteConfig from '../data/site-config'
       Call Now
     </a>
   </div>
-   <p class="mt-4 text-sm sm:text-md md:text-lg font-medium text-gray-400">
+  
+  <p class="mt-4 text-sm sm:text-md md:text-lg font-medium text-gray-400">
     Serving Sacramento & Surrounding Areas
   </p>
 

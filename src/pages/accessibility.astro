@@ -1,0 +1,62 @@
+---
+import LegalLayout from "../layouts/LegalLayout.astro";
+import siteConfig from "../data/site-config.js";
+
+const h2 = "text-xl font-semibold text-white mt-10 mb-3";
+const p = "text-gray-300";
+---
+
+<LegalLayout
+  title="Accessibility Statement"
+  pageName="Accessibility Statement"
+  description={`Accessibility Statement for ${siteConfig.businessName}.`}
+>
+  <div class="rounded-lg border border-amber-800/50 bg-amber-950/30 px-4 py-3 text-sm text-amber-300" role="note">
+    <strong>Placeholder content.</strong> The structure and conformance
+    target below match the site's real accessibility work (Section 3.1 of
+    the build spec), but this text has not been reviewed by counsel and
+    should be confirmed before launch — particularly in light of
+    California's Unruh Civil Rights Act.
+  </div>
+
+  <p class={p}>
+    {siteConfig.businessName} is committed to ensuring this website is
+    accessible to everyone, including people with disabilities. We
+    continually work to improve the accessibility of our site for all
+    visitors.
+  </p>
+
+  <h2 class={h2}>Conformance Target</h2>
+  <p class={p}>
+    This website aims to conform to the{" "}
+    <a href="https://www.w3.org/TR/WCAG21/" class="text-red-500 underline underline-offset-2 decoration-red-500/60 hover:text-red-400" target="_blank" rel="noopener noreferrer">
+      Web Content Accessibility Guidelines (WCAG) 2.1, Level AA
+    </a>. These guidelines explain how to make web content more accessible
+    for people with disabilities and more usable for everyone.
+  </p>
+
+  <h2 class={h2}>Measures We've Taken</h2>
+  <p class={p}>
+    Semantic HTML landmarks, keyboard-operable navigation and forms, visible
+    focus indicators, labeled form fields, sufficient color contrast, and a
+    skip-to-content link are built into this site. We test with automated
+    tools (axe, Lighthouse) as well as manual keyboard and screen reader
+    passes.
+  </p>
+
+  <h2 class={h2}>Known Limitations</h2>
+  <p class={p}>
+    [PLACEHOLDER — list any known accessibility gaps not yet resolved, or
+    state "None known at this time" once a full audit has been completed.]
+  </p>
+
+  <h2 class={h2}>Feedback &amp; Contact</h2>
+  <p class={p}>
+    If you encounter an accessibility barrier on this site, please let us
+    know so we can address it: {" "}
+    <a href={`mailto:${siteConfig.email}`} class="text-red-500 underline underline-offset-2 decoration-red-500/60 hover:text-red-400">{siteConfig.email}</a>{" "}
+    or <a href={`tel:${siteConfig.phone}`} class="text-red-500 underline underline-offset-2 decoration-red-500/60 hover:text-red-400">{siteConfig.phoneDisplay}</a>.
+    We aim to respond to accessibility feedback within [PLACEHOLDER — e.g. 2
+    business days].
+  </p>
+</LegalLayout>

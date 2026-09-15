@@ -1,8 +1,10 @@
-@import "@fontsource-variable/changa";
+/* src/styles/global.css */
 @import "tailwindcss";
+
 @theme {
   --font-sans: "Changa", ui-sans-serif, system-ui, sans-serif;
 }
+
 html {
   color-scheme: dark;
 }

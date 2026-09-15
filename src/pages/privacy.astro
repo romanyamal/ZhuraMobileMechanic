@@ -1,0 +1,68 @@
+---
+import LegalLayout from "../layouts/LegalLayout.astro";
+import siteConfig from "../data/site-config.js";
+
+const h2 = "text-xl font-semibold text-white mt-10 mb-3";
+const p = "text-gray-300";
+const ul = "list-disc pl-6 space-y-1 text-gray-300";
+---
+
+<LegalLayout
+  title="Privacy Policy"
+  pageName="Privacy Policy"
+  description={`Privacy Policy for ${siteConfig.businessName}.`}
+>
+  <div class="rounded-lg border border-amber-800/50 bg-amber-950/30 px-4 py-3 text-sm text-amber-300" role="note">
+    <strong>Placeholder content.</strong> This page has the correct structure
+    for a Privacy Policy but the text below is a generic draft — it has not
+    been reviewed by an attorney and must not be treated as final before
+    launch.
+  </div>
+
+  <p class={p}>
+    This Privacy Policy explains how {siteConfig.businessName} ("we," "us,"
+    or "our") collects, uses, and protects information you provide when you
+    use this website or contact us to request service.
+  </p>
+
+  <h2 class={h2}>Information We Collect</h2>
+  <p class={p}>When you submit our contact form or booking scheduler, we collect:</p>
+  <ul class={ul}>
+    <li>Name and contact details (phone, email)</li>
+    <li>Vehicle details (year, make, model)</li>
+    <li>Service location and description of the issue</li>
+  </ul>
+
+  <h2 class={h2}>How We Use Your Information</h2>
+  <p class={p}>
+    We use the information you provide solely to respond to your inquiry,
+    confirm availability, and schedule or perform requested service. We do
+    not sell your personal information.
+  </p>
+
+  <h2 class={h2}>Third-Party Services</h2>
+  <p class={p}>
+    Our contact form is processed by Web3Forms and our scheduler is powered
+    by Cal.com. Information submitted through these tools is subject to
+    those providers' own privacy policies in addition to this one.
+  </p>
+
+  <h2 class={h2}>Data Retention</h2>
+  <p class={p}>
+    [PLACEHOLDER — specify how long submitted information is retained and
+    where it is stored.]
+  </p>
+
+  <h2 class={h2}>Your Rights</h2>
+  <p class={p}>
+    [PLACEHOLDER — confirm whether California privacy law (CCPA/CPRA)
+    disclosures apply based on business size/revenue, and add the required
+    rights language if so.]
+  </p>
+
+  <h2 class={h2}>Contact Us</h2>
+  <p class={p}>
+    Questions about this policy can be sent to{" "}
+    <a href={`mailto:${siteConfig.email}`} class="text-red-500 underline underline-offset-2 decoration-red-500/60 hover:text-red-400">{siteConfig.email}</a>.
+  </p>
+</LegalLayout>

@@ -1,6 +1,11 @@
 {
   "name": "Zhura Mobile Mechanic and Roadside Assistance",
   "short_name": "Zhura",
+  "description": "Mobile mechanic and roadside assistance — we come to you.",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#030712",
+  "theme_color": "#dc2626",
   "icons": [
     {
       "src": "/android-chrome-192x192.png",
@@ -12,8 +17,5 @@
       "sizes": "512x512",
       "type": "image/png"
     }
-  ],
-  "theme_color": "#dc2626",
-  "background_color": "#ffffff",
-  "display": "standalone"
+  ]
 }

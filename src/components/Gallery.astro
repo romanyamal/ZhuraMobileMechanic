@@ -16,7 +16,7 @@ const images = import.meta.glob<{ default: ImageMetadata }>(
     </h2>
   </div>
 
-  <ul id="gallery-list" class="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
+  <ul id="gallery-list" class="grid gap-6 sm:grid-cols-2 lg:grid-cols-3 mx-auto max-w-6xl">
     {galleryItems.map((item, index) => {
       const imageModule = images[item.src];
       if (!imageModule) return null;

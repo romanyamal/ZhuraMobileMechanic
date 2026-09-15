@@ -1,9 +1,13 @@
 export default {
   businessName: "Zhura Mobile Mechanic and Roadside Assistance",
   shortName: "Zhura",
+  tagline: "Certified mobile repair, wherever you're stranded.",
   phone: "+19165551234",
   phoneDisplay: "(916) 555-1234",
   email: "hello@zhuramobilemechanic.com",
+  // PLACEHOLDER — real domain not finalized. Update here once confirmed;
+  // this single value drives canonical URLs (Layout.astro), robots.txt's
+  // sitemap reference, and the JSON-LD business schema (Footer.astro).
   domain: "https://zhuramobilemechanic.com",
   hours: {
     monday: "8:00–18:00",
@@ -14,7 +18,18 @@ export default {
     saturday: "closed",
     sunday: "closed",
   },
-  address: {},
+  // PLACEHOLDER — leave empty ({}) to omit a displayed/schema address entirely
+  // (Footer.astro and its JSON-LD both check for this). Fill in once a
+  // public-facing address is confirmed (mobile businesses often use a
+  // service-area description instead of a street address — confirm which
+  // applies before populating this).
+  address: {
+    // streetAddress: "",
+    // addressLocality: "",
+    // addressRegion: "CA",
+    // postalCode: "",
+    // addressCountry: "US",
+  },
   social: {
     google: "https://g.page/placeholder",
     facebook: "https://facebook.com/placeholder",
@@ -39,6 +54,21 @@ export default {
       "Upfront, Transparent Pricing",
     ],
   },
+  // PLACEHOLDER — confirm this is the real business/LLC license number.
   license: "#LLCPlaceholder",
+  // California Bureau of Automotive Repair registration number.
+  // PLACEHOLDER — confirm this is the real, current ARD number before launch.
   ard: "ARD23333333",
+  // PLACEHOLDER — one-line bonding/insurance disclosure shown in the footer.
+  // Replace with real carrier/policy language (or a simple "Licensed,
+  // Bonded & Insured" line) once confirmed with the business owner.
+  insuranceDisclosure:
+    "Licensed, bonded, and insured. Policy details available upon request.",
+  // PLACEHOLDER — confirm which payment methods are actually accepted, or
+  // remove this array (and the footer section that reads it) entirely if
+  // this shouldn't be displayed. Currently unconfirmed per build spec §11.
+  paymentMethods: ["Cash", "Credit / Debit Cards", "Venmo", "Zelle"],
+  // PLACEHOLDER — rough price band for the AutoRepair schema's optional
+  // priceRange field. "$$" is a safe generic placeholder; confirm or remove.
+  priceRange: "$$",
 };

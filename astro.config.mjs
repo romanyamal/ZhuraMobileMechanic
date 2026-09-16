@@ -4,7 +4,8 @@ import tailwindcss from "@tailwindcss/vite";
 import sitemap from "@astrojs/sitemap";
 
 export default defineConfig({
-  site: "https://zhuramobilemechanic.com",
+  site: "https://romanyamal.github.io",
+  base: "/ZhuraMobileMechanic/",
   integrations: [sitemap()],
 
   compressHTML: true,

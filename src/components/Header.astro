@@ -2,17 +2,19 @@
 import Nav from '../data/nav.js'
 import siteConfig from '../data/site-config'
 
+const base = import.meta.env.BASE_URL;
+
 // The nav/logo/Book Now links are in-page hash anchors that only resolve
 // on the single scrolling home page. On the separate legal/404 routes
 // there's no matching section to jump to, so route home first and let the
 // hash resolve there (Layout.astro's script handles the focus-on-arrival
 // behavior once "/" has loaded).
-const isHome = Astro.url.pathname === '/';
-const toHref = (hash:string) => (isHome ? hash : `/${hash}`);
+const isHome = Astro.url.pathname === base || Astro.url.pathname === `${base}index.html`;
+const toHref = (hash: string) => (isHome ? hash : `${base}${hash}`);
 // NOTE: assumes the Hero section's id is "home" (per build spec §5.1's
 // suggested `href="#home"` for the logo). Update this constant if Hero.astro
 // uses a different id.
-const logoHref = isHome ? '#home' : '/';
+const logoHref = isHome ? "#home" : base;
 ---
 <header class="site-header sticky top-0 z-40 bg-gray-950 text-gray-300 shadow-sm">
   <div class="relative mx-auto flex max-w-6xl items-center justify-between px-7 py-5">

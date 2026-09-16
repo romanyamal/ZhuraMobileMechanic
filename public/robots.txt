@@ -4,4 +4,4 @@
 User-agent: *
 Allow: /
 
-Sitemap: https://zhuramobilemechanic.com/sitemap-index.xml
+Sitemap: https://romanyamal.github.io/ZhuraMobileMechanic/sitemap-index.xml

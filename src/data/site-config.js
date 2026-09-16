@@ -8,7 +8,7 @@ export default {
   // PLACEHOLDER — real domain not finalized. Update here once confirmed;
   // this single value drives canonical URLs (Layout.astro), robots.txt's
   // sitemap reference, and the JSON-LD business schema (Footer.astro).
-  domain: "https://zhuramobilemechanic.com",
+  domain: "https://romanyamal.github.io/ZhuraMobileMechanic",
   hours: {
     monday: "8:00–18:00",
     tuesday: "8:00–18:00",

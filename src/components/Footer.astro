@@ -4,11 +4,14 @@ import nav from "../data/nav.js";
 import services from "../data/services.js";
 import serviceAreas from "../data/service-areas.js";
 
+const base = import.meta.env.BASE_URL;
+const currentPath = Astro.url.pathname;
+
 const year = new Date().getFullYear();
 
-const isHome = Astro.url.pathname === "/";
-const toHref = (hash: string) => (isHome ? hash : `/${hash}`);
-const logoHref = isHome ? "#home" : "/";
+const isHome = Astro.url.pathname === base || Astro.url.pathname === `${base}index.html`;
+const toHref = (hash: string) => (isHome ? hash : `${base}${hash}`);
+const logoHref = isHome ? "#home" : base;
 
 const linkClasses =
   "text-gray-400 hover:text-white focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-white rounded-sm transition-colors";
@@ -227,9 +230,9 @@ const businessSchema = {
     <!-- 9 & 10. Legal links + copyright -->
     <div class="mt-8 pt-8 border-t border-gray-900 flex flex-col gap-4 text-sm sm:flex-row sm:items-center sm:justify-between">
       <ul class="flex flex-wrap gap-x-6 gap-y-2">
-        <li><a href="/privacy" class={linkClasses}>Privacy Policy</a></li>
-        <li><a href="/terms" class={linkClasses}>Terms of Use</a></li>
-        <li><a href="/accessibility" class={linkClasses}>Accessibility Statement</a></li>
+        <li><a href={`${base}privacy`} class={linkClasses}>Privacy Policy</a></li>
+        <li><a href={`${base}terms`} class={linkClasses}>Terms of Use</a></li>
+        <li><a href={`${base}accessibility`} class={linkClasses}>Accessibility Statement</a></li>
       </ul>
       <p class="text-gray-400">&copy; {year} {siteConfig.businessName}. All rights reserved.</p>
     </div>

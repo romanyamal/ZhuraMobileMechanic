@@ -16,7 +16,7 @@ const toHref = (hash: string) => (isHome ? hash : `${base}${hash}`);
 // uses a different id.
 const logoHref = isHome ? "#home" : base;
 ---
-<header class="site-header sticky top-0 z-40 bg-gray-950 text-gray-300 shadow-sm">
+<header class="site-header fixed top-0 left-0 w-full transform-gpu tranzlate-z-0 z-40 bg-gray-950 text-gray-300 shadow-sm">
   <div class="relative mx-auto flex max-w-6xl items-center justify-between px-7 py-5">
     
     <div class="logo">

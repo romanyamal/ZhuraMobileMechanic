@@ -17,7 +17,11 @@ interface Props {
 
 const { title, pageName, description, updatedDate = "Not yet finalized" } = Astro.props;
 
-const canonicalPath = Astro.url.pathname;
+const absoluteCanonicalUrl = Astro.url.href;
+const absoluteHomeUrl = siteConfig.domain.startsWith('http') 
+  ? siteConfig.domain 
+  : `https://${siteConfig.domain}`;
+
 const breadcrumbSchema = {
   "@context": "https://schema.org",
   "@type": "BreadcrumbList",
@@ -26,13 +30,13 @@ const breadcrumbSchema = {
       "@type": "ListItem",
       position: 1,
       name: "Home",
-      item: siteConfig.domain,
+      item: absoluteHomeUrl,
     },
     {
       "@type": "ListItem",
       position: 2,
       name: pageName,
-      item: `${siteConfig.domain}${canonicalPath}`,
+      item: absoluteCanonicalUrl,
     },
   ],
 };

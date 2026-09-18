@@ -2,6 +2,13 @@
 import Layout from "../layouts/Layout.astro";
 import siteConfig from "../data/site-config.js";
 
+const base = import.meta.env.BASE_URL;
+const currentPath = Astro.url.pathname;
+
+const isHome = currentPath === base || currentPath === `${base}index.html`;
+const toHref = (hash: string) => (isHome ? hash : `${base}${hash}`);
+const logoHref = isHome ? "#home" : base;
+
 const ctaClasses =
   "inline-flex items-center justify-center rounded-lg px-6 py-3 font-semibold focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-white";
 ---
@@ -23,7 +30,7 @@ const ctaClasses =
       </p>
 
       <div class="mt-8 flex flex-col sm:flex-row gap-3 justify-center">
-        <a href="/" class={`${ctaClasses} bg-red-600 text-white hover:bg-red-800`}>
+        <a href=`${logoHref}` class={`${ctaClasses} bg-red-600 text-white hover:bg-red-800`}>
           Back to Home
         </a>
         <a
@@ -36,7 +43,7 @@ const ctaClasses =
 
       <p class="mt-6 text-sm text-gray-500">
         Or{" "}
-        <a href="/#contact" class="text-red-500 underline underline-offset-2 decoration-red-500/60 hover:text-red-400 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-white rounded-sm">
+        <a href=`${toHref("#contact")}` class="text-red-500 underline underline-offset-2 decoration-red-500/60 hover:text-red-400 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-white rounded-sm">
           send us a message
         </a>{" "}
         and we'll get back to you.

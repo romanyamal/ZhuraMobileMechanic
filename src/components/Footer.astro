@@ -9,7 +9,7 @@ const currentPath = Astro.url.pathname;
 
 const year = new Date().getFullYear();
 
-const isHome = Astro.url.pathname === base || Astro.url.pathname === `${base}index.html`;
+const isHome = currentPath === base || currentPath === `${base}index.html`;
 const toHref = (hash: string) => (isHome ? hash : `${base}${hash}`);
 const logoHref = isHome ? "#home" : base;
 
